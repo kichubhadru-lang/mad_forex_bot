@@ -176,26 +176,8 @@ Reasons:
 
 
 def main():
-
-    signals = []
-
-    for pair, ticker in PAIRS.items():
-
-        print(f"Scanning {pair}")
-
-        signal = elite_signal(pair, ticker)
-
-        if signal:
-            signals.append(signal)
-
-    if len(signals) == 0:
-        send_telegram("🏆 FOREX BOT\n\nNo Elite setup today.")
-        return
-
-    signals.sort(key=lambda x: x["Score"], reverse=True)
-
-    for s in signals[:3]:
-        send_telegram(format_signal(s))
+    send_telegram("✅ Forex bot is running successfully!")
+    print("Telegram test sent")
 
 
 if __name__ == "__main__":
