@@ -153,8 +153,7 @@ def elite_signal(pair, ticker):
         "TP2": tp2,
         "Reasons": ", ".join(reasons)
     }
-  def format_signal(s):
-
+def format_signal(s):
     return f"""
 🏆 FOREX ELITE SIGNAL
 
@@ -182,29 +181,21 @@ def main():
 
     for pair, ticker in PAIRS.items():
 
-        print("Scanning", pair)
+        print(f"Scanning {pair}")
 
         signal = elite_signal(pair, ticker)
 
         if signal:
             signals.append(signal)
 
-    if not signals:
-
-        send_telegram(
-            "🏆 FOREX SWING BOT\n\nNo Elite Forex setup today."
-        )
-
+    if len(signals) == 0:
+        send_telegram("🏆 FOREX BOT\n\nNo Elite setup today.")
         return
 
-    signals = sorted(
-        signals,
-        key=lambda x: x["Score"],
-        reverse=True
-    )
+    signals.sort(key=lambda x: x["Score"], reverse=True)
 
-    for signal in signals[:3]:
-        send_telegram(format_signal(signal))
+    for s in signals[:3]:
+        send_telegram(format_signal(s))
 
 
 if __name__ == "__main__":
