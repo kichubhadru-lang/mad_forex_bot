@@ -46,7 +46,7 @@ def send_telegram(message):
     print("Telegram status:", response.status_code)
     print("Telegram response:", response.text)
 
-    )
+    
 
 
 def download(symbol, interval, period):
