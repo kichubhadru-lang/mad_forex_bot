@@ -23,17 +23,29 @@ PAIRS = {
     "GBPJPY": "GBPJPY=X"
 }
 
-
 def send_telegram(message):
+    if not BOT_TOKEN:
+        print("ERROR: BOT_TOKEN missing")
+        return
+
+    if not CHAT_ID:
+        print("ERROR: CHAT_ID missing")
+        return
+
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    requests.post(
+    response = requests.post(
         url,
         json={
             "chat_id": CHAT_ID,
             "text": message
         },
         timeout=30
+    )
+
+    print("Telegram status:", response.status_code)
+    print("Telegram response:", response.text)
+
     )
 
 
