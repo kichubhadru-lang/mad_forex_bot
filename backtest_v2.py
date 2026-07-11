@@ -859,19 +859,42 @@ def backtest_pair(
         row = data.iloc[index]
 
         score_result = (
-            calculate_historical_signal(row)
-        )
+            score_result = calculate_historical_signal(row)
 
-        direction = str(
-            score_result["action"]
-        )
+direction = str(score_result["action"])
+score = int(score_result["score"])
 
-        score = int(
-            score_result["score"]
-        )
+global MANDATORY_PASS_COUNT
 
-        if score < MIN_SCORE:
-            continue
+if not score_result.get("mandatory_passed", False):
+    rejection_data = score_result.get(
+        "rejection_reasons",
+        {},
+    )
+
+    for trade_side in ["BUY", "SELL"]:
+        for reason in rejection_data.get(trade_side, []):
+            key = f"{trade_side}: {reason}"
+
+            REJECTION_COUNTS[key] += 1
+            PAIR_REJECTION_COUNTS[
+                f"{pair} | {key}"
+            ] += 1
+
+    continue
+
+MANDATORY_PASS_COUNT += 1
+
+if score < MIN_SCORE:
+    REJECTION_COUNTS[
+        "Passed mandatory filters but score below minimum"
+    ] += 1
+
+    PAIR_REJECTION_COUNTS[
+        f"{pair} | Passed mandatory but score below {MIN_SCORE}"
+    ] += 1
+
+    continue
 
         trade = simulate_trade(
             df=data,
