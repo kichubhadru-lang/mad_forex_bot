@@ -857,11 +857,9 @@ def backtest_pair(
             continue
 
         row = data.iloc[index]
+       score_result = calculate_historical_signal(row)
 
-        
-            score_result = calculate_historical_signal(row)
-
-direction = str(score_result["action"])
+      direction = str(score_result["action"])
 score = int(score_result["score"])
 
 global MANDATORY_PASS_COUNT
