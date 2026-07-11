@@ -872,6 +872,38 @@ if not score_result.get("mandatory_passed", False):
         {},
     )
 
+    for side in ["BUY", "SELL"]:
+        for reason in rejection_data.get(side, []):
+            REJECTION_COUNTS[
+                f"{side}: {reason}"
+            ] += 1
+
+            PAIR_REJECTION_COUNTS[
+                f"{pair} | {side}: {reason}"
+            ] += 1
+
+    continue
+
+MANDATORY_PASS_COUNT += 1
+
+if score < MIN_SCORE:
+    REJECTION_COUNTS[
+        "Passed mandatory filters but score below minimum"
+    ] += 1
+
+    continue
+
+direction = str(score_result["action"])
+score = int(score_result["score"])
+
+global MANDATORY_PASS_COUNT
+
+if not score_result.get("mandatory_passed", False):
+    rejection_data = score_result.get(
+        "rejection_reasons",
+        {},
+    )
+
     for trade_side in ["BUY", "SELL"]:
         for reason in rejection_data.get(trade_side, []):
             key = f"{trade_side}: {reason}"
