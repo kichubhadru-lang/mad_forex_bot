@@ -1,3 +1,5 @@
+from collections import Counter
+
 from __future__ import annotations
 
 import warnings
