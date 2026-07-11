@@ -858,7 +858,7 @@ def backtest_pair(
 
         row = data.iloc[index]
 
-        score_result = (
+        
             score_result = calculate_historical_signal(row)
 
 direction = str(score_result["action"])
