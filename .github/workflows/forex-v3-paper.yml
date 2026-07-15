@@ -23,8 +23,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run scanner
-      env:
-  BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-  CHAT_ID: ${{ secrets.CHAT_ID }}
+      - name: Run scanner
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          python live_scanner_v3.py
         run: |
           python live_scanner_v3.py
